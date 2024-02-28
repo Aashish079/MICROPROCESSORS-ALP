@@ -1,0 +1,44 @@
+TITLE TO READ AND DISPLAY STRING USING CHARACTER READING WRITING FUNCTION
+
+.MODEL SMALL
+.STACK 32H
+;-------------------------------------------
+.DATA
+STRING DB 10 DUP("$")
+NEWLINE DB 0DH, 0AH, "$"
+;-------------------------------------------
+.CODE
+MAIN PROC FAR
+    MOV AX,@DATA
+    MOV DS,AX
+    MOV CX, 10
+; READ STRING
+LEA BX, STRING
+READ:
+    MOV AH, 01H
+    INT 21H
+    MOV [BX], AL
+    JE WRITE
+    INC BX
+    CMP AL, 0DH
+    LOOP READ
+; DISPLAY NEWLINE
+    MOV AH, 09H
+    LEA DX, NEWLINE
+    INT 21H
+; DISPLAY STRING
+    LEA BX, STRING
+    MOV CX, 10
+WRITE:
+    MOV AH, 02H
+    MOV DL, [BX]
+    INT 21H
+    INC BX
+    LOOP WRITE
+
+    MOV AX, 4C00H
+    INT 21H
+    MAIN ENDP
+END MAIN
+
+

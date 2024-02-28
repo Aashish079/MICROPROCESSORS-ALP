@@ -1,0 +1,45 @@
+TITLE TO READ A STRING, CONVERT IT TO UPPERCASE AND DISPLAY IT
+.MODEL SMALL
+.STACK 32H
+;-------------------------------------------
+.DATA
+MAXLEN DB 50
+ACTLEN DB ?
+STRING DB 50 DUP ('$')
+;-------------------------------------------
+.CODE
+MAIN PROC FAR
+	MOV AX, @DATA
+	MOV DS, AX	
+    ;Read String
+	MOV AH, 0AH
+	LEA DX, MAXLEN
+	INT 21H	
+    ;Convert to Uppercase
+	MOV BX, 0H
+	UPPERCASE:
+	MOV AL, STRING[BX]
+	CMP AL, 97
+	JL NEXT
+	CMP AL, 123
+	JG NEXT
+	SUB AL, 32
+	MOV STRING[BX], AL
+	NEXT:
+	INC BX
+	LOOP UPPERCASE	
+
+    ;Display Newline
+	MOV AH, 02H
+    MOV DL, 0DH
+    INT 21H
+    MOV DL, 0AH
+    INT 21H	
+    ;Display String
+	MOV AH, 09H
+	MOV DX, OFFSET STRING
+	INT 21H	
+	MOV AX, 4C00H
+	INT 21H
+    MAIN ENDP
+END MAIN
