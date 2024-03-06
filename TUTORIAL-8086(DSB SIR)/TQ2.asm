@@ -1,6 +1,6 @@
 TITLE ADD 10 NUMBERS WHICH ARE BETWEEN 30 AND 100 ONLY AND DISPLAY THE SUM IN HEX
 .MODEL SMALL
-.STACK
+.STACK 32H
 .DATA
     ARR  DW 10,70,26,79,70,30,130,40,100,150
     STRING  DB "THE SUM OF NUMBERS IS: $"
@@ -9,24 +9,22 @@ TITLE ADD 10 NUMBERS WHICH ARE BETWEEN 30 AND 100 ONLY AND DISPLAY THE SUM IN HE
 MAIN PROC FAR
            MOV  AX,@DATA
            MOV  DS,AX
-           MOV  AX,@STACK
-           MOV  SS,AX
 
            LEA  SI,ARR
            MOV  AX,0; SUM=0
            MOV  CX,10; Counter
            ;Summing the numbers
     REPEAT:
-           CMP [SI],50
+           CMP [SI],30
            JC SKIP
-           CMP [SI],150
+           CMP [SI],100
            JNC  SKIP
            ADD  AX,[SI]
         SKIP:INC  SI
            INC SI
            LOOP REPEAT
 
-        ;For getting the Decimal Value
+        ;For getting the HexaDecimal Value
            MOV DX,0
            MOV CX,0
            MOV BX,10H; For getting HEX DIGITS

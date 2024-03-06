@@ -1,6 +1,6 @@
 TITLE ADD 10 NUMBERS WHICH ARE BETWEEN 50 AND 150 ONLY DISPLAY THE SUM IN DECIMAL
 .MODEL SMALL
-.STACK
+.STACK 32H
 .DATA
     ARR  DW 10,70,26,79,70,30,130,40,100,150
     STRING  DB "THE SUM OF NUMBERS IS: $"
@@ -9,8 +9,6 @@ TITLE ADD 10 NUMBERS WHICH ARE BETWEEN 50 AND 150 ONLY DISPLAY THE SUM IN DECIMA
 MAIN PROC FAR
            MOV  AX,@DATA
            MOV  DS,AX
-           MOV  AX,@STACK
-           MOV  SS,AX
 
            LEA  SI,ARR
            MOV  AX,0; SUM=0
@@ -44,7 +42,7 @@ MAIN PROC FAR
             CMP CX,0
             JZ EXIT
             POP DX
-            ADD DX,30H
+            ADD DX,30
             DEC CX
             MOV AH,02H
             INT 21H
